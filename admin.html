@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Painel do Administrador | +Shop</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <span class="logo">⚡</span>
+        <span>+Shop · Admin</span>
+      </div>
+      <nav class="nav-links">
+        <a href="index.html">Ver página pública</a>
+        <button type="button" class="btn btn-sm" id="logoutBtn" hidden>Sair</button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Tela de senha -->
+  <div class="container" id="authGate">
+    <div class="auth-gate">
+      <div class="card panel">
+        <h2>🔒 Acesso restrito</h2>
+        <p style="color:var(--muted);margin-bottom:18px">Digite a senha do administrador para gerenciar os produtos.</p>
+        <div class="field">
+          <input type="password" id="passwordInput" placeholder="Senha do administrador" autocomplete="current-password">
+        </div>
+        <button type="button" class="btn btn-block" id="loginBtn">Entrar</button>
+        <p class="hint" style="margin-top:14px">Dica: a senha padrão pode ser alterada no arquivo <strong>js/admin.js</strong>.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Painel -->
+  <div class="container" id="adminPanel" hidden>
+
+    <main class="admin-layout">
+
+      <!-- Formulário -->
+      <div class="panel">
+        <h2 id="formTitle">Novo produto</h2>
+
+        <form id="productForm" autocomplete="off">
+          <input type="hidden" id="productId">
+
+          <div class="field">
+            <label for="fName">Nome do produto *</label>
+            <input type="text" id="fName" required>
+          </div>
+
+          <div class="field">
+            <label for="fCategory">Categoria *</label>
+            <input type="text" id="fCategory" list="categoryList" required placeholder="Ex.: Eletrônicos">
+            <datalist id="categoryList"></datalist>
+          </div>
+
+          <div class="field">
+            <label for="fDescription">Descrição</label>
+            <textarea id="fDescription" rows="2" placeholder="Breve descrição do produto (opcional)"></textarea>
+          </div>
+
+          <div class="field">
+            <label for="fPrice">Preço atual (R$) *</label>
+            <input type="number" id="fPrice" min="0" step="0.01" required placeholder="99.90">
+          </div>
+
+          <div class="field">
+            <label for="fOldPrice">Preço antigo (R$)</label>
+            <input type="number" id="fOldPrice" min="0" step="0.01" placeholder="Deixe 0 se não houver">
+            <div class="hint">Mostra o preço antigo riscado se for maior que o atual.</div>
+          </div>
+
+          <div class="field">
+            <label for="fImage">URL da imagem</label>
+            <input type="url" id="fImage" placeholder="https://... (opcional)">
+            <div class="hint">Se estiver vazio, é exibida uma imagem com as iniciais do produto.</div>
+          </div>
+
+          <div class="field">
+            <label for="fStore">Loja *</label>
+            <select id="fStore" required>
+              <option value="Mercado Livre">Mercado Livre</option>
+              <option value="Shopee">Shopee</option>
+              <option value="Outra">Outra</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label for="fLink">Link de afiliado *</label>
+            <input type="url" id="fLink" required placeholder="https://...">
+            <div class="hint">Use o link de afiliado gerado na plataforma (Ex.: Mercado Livre / Shopee).</div>
+          </div>
+
+          <div class="field">
+            <label>
+              <input type="checkbox" id="fFeatured" style="width:auto;display:inline;margin-right:6px">
+              Marcar como <strong>destaque</strong>
+            </label>
+          </div>
+
+          <div class="form-actions">
+            <button type="submit" class="btn" id="saveBtn">Salvar produto</button>
+            <button type="button" class="btn btn-ghost" id="resetBtn" hidden>Cancelar edição</button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Lista -->
+      <div class="panel">
+        <h2>Produtos cadastrados <span id="panelCount" style="color:var(--muted);font-weight:400"></span></h2>
+
+        <div class="stats">
+          <div class="stat"><b id="statTotal">0</b><span>Total</span></div>
+          <div class="stat"><b id="statFeatured">0</b><span>Destaques</span></div>
+          <div class="stat"><b id="statCats">0</b><span>Categorias</span></div>
+        </div>
+
+        <div style="overflow-x:auto">
+          <table class="admin-table" id="productTable">
+            <thead>
+              <tr>
+                <th>Produto</th>
+                <th>Categoria</th>
+                <th>Preço</th>
+                <th>Destaque</th>
+                <th>Ações</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody"></tbody>
+          </table>
+        </div>
+
+        <h3>Publicar alterações</h3>
+        <p class="hint" style="margin-bottom:14px">
+          Este site é estático. Para publicar no ar, faça o download/exportação do <strong>products.json</strong>
+          e substitua o arquivo do seu servidor, ou cole o conteúdo abaixo.
+        </p>
+        <div class="form-actions">
+          <button type="button" class="btn btn-accent" id="exportBtn">⬇ Baixar products.json</button>
+          <button type="button" class="btn btn-ghost" id="copyBtn">Copiar JSON</button>
+          <button type="button" class="btn btn-ghost" id="importBtn">Importar JSON</button>
+        </div>
+        <div class="field" id="importArea" hidden style="margin-top:14px">
+          <label for="importText">Cole o conteúdo do products.json</label>
+          <textarea id="importText" class="code"></textarea>
+          <div class="form-actions">
+            <button type="button" class="btn" id="confirmImportBtn">Importar agora</button>
+            <button type="button" class="btn btn-ghost" id="cancelImportBtn">Cancelar</button>
+          </div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

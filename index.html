@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>+Shop | Cupons e Produtos em Promoção</title>
+  <meta name="description" content="Confira as melhores ofertas selecionadas em Mercado Livre e Shopee. Pesquise produtos por categoria e faixa de preço.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <header class="site-header">
+    <div class="container">
+      <div class="brand">
+        <span class="logo">⚡</span>
+        <span>+Shop</span>
+      </div>
+      <nav class="nav-links">
+        <a href="#ofertas">Ofertas</a>
+        <a href="admin.html" class="badge-admin">Admin</a>
+      </nav>
+    </div>
+  </header>
+
+  <section class="hero">
+    <div class="container">
+      <h1>As melhores ofertas em um só lugar</h1>
+      <p>Selecionamos os melhores produtos de <strong>Mercado Livre</strong> e <strong>Shopee</strong> com preços imperdíveis. Clique e garanta o seu.</p>
+      <div class="search-bar">
+        <input type="search" id="searchInput" placeholder="Buscar produtos..." aria-label="Buscar produtos">
+        <button type="button" id="searchBtn">Buscar</button>
+      </div>
+    </div>
+  </section>
+
+  <main class="container">
+
+    <section class="filters" id="filters">
+      <div class="filter-group">
+        <h3>Categorias</h3>
+        <div class="chips" id="categoryChips"></div>
+      </div>
+      <div class="filter-group">
+        <h3>Faixa de preço</h3>
+        <div class="chips" id="priceChips"></div>
+      </div>
+      <div class="filter-group">
+        <h3>Loja</h3>
+        <div class="chips" id="storeChips"></div>
+      </div>
+    </section>
+
+    <section id="ofertas">
+      <div class="results-info">
+        <span id="resultsCount">Carregando produtos...</span>
+        <button type="button" class="btn btn-ghost btn-sm" id="clearFilters">Limpar filtros</button>
+      </div>
+      <div class="carousel" id="productCarousel">
+        <button type="button" class="carousel-btn prev" id="carouselPrev" aria-label="Anterior">‹</button>
+        <div class="carousel-track" id="productTrack" tabindex="0" aria-label="Carrossel de produtos"></div>
+        <button type="button" class="carousel-btn next" id="carouselNext" aria-label="Próximo">›</button>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>Os preços e a disponibilidade são informativos e podem sofrer alterações na loja. Comprando pelos nossos links, você apoia a nossa página sem pagar nada a mais. 💙</p>
+      <p style="margin-top:6px"><a href="admin.html">Área do administrador</a></p>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status"></div>
+
+  <script src="js/products.js"></script>
+</body>
+</html>
